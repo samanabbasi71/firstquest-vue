@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <!-- <Header /> -->
-    <!-- <Filters /> -->
   </div>
 </template>
 

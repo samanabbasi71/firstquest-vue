@@ -9,7 +9,7 @@
 
 <script>
 export default {
-
+  layout: 'singlepage'
 }
 </script>
 

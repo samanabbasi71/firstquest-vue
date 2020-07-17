@@ -6,7 +6,7 @@
           <div class="filter">
             <p class="filter-label">destinations</p>
             <select v-model="form.city" class="filter-select">
-              
+                <option value disabled selected>Select Your Favorite Cities</option>
               <option value="All" class="filter-option">All</option>
               <option v-for="(city, index) in cities" :key="index" :value="city.name" class="filter-option">{{city.name}}</option>
             </select>
@@ -28,11 +28,8 @@
             <div class="filter">
               <p class="filter-label">budget range</p>
               <select
-                value="{budget}"
-                id="budget"
-                name="budget"
+                v-model="form.budget"
                 class="filter-select"
-                onchange="{handleChange}"
               >
                 <option value disabled selected>How Much ?</option>
                 <option value="all" class="filter-option">All</option>
@@ -68,6 +65,7 @@ export default {
       form: {
       city: "",
       days: "",
+      budget: ""
       },
       cities: [],
       fetching: false,
@@ -75,15 +73,19 @@ export default {
   },
   created() {
       const {query} = this.$route;
+      console.log(query);
       if (query.city) {
           this.city = query.city
       }
       if (query.days) {
           this.days = query.days
       }
+      if (query.budget) {
+          this.budget = query.budget
+      }
   },
     created() {
-    this.fetchList();
+    this.fetchCities();
   },
   watch: {
     'form': {
@@ -95,18 +97,10 @@ export default {
   },
   methods: {
       submited() {
-          // const params = {};
-          // if (this.form.city) {
-          //     params.city = this.form.city
-          // }
-          // if (this.days) {
-          //     params.days = this.form.days
-          // }
-        //   this.$router.push('results')
         this.$router.push({name: 'results', query: this.form})
           
       },
-      fetchList() {
+      fetchCities() {
       this.fetching = true;
       fetch(`https://1stquest.com/api/plan/v1/cities`)
         .then(res => res.json())

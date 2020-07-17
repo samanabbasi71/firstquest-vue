@@ -1,7 +1,5 @@
 <template>
   <div class="results">
-    <!-- <Header /> -->
-    <!-- <Filters /> -->
     <h3 v-if="fetching">Fetching ...</h3>
     <ToursList v-else :tours="filteredTours"  />
   </div>
@@ -27,7 +25,7 @@ export default {
   watch:{
     "$route.query": function(){
       console.log("params change", this.$route);
-      this.startFilter()
+      this.filtering()
     }
   },
   methods: {
@@ -37,7 +35,7 @@ export default {
         .then(res => res.json())
         .then(res => {
           this.tours = res.data
-          this.startFilter();
+          this.filtering();
           this.fetching = false;
         })
         .catch(() => {
@@ -45,7 +43,7 @@ export default {
             alert("Error in get tours ");
         });
     },
-    startFilter() {
+    filtering() {
       const { query } = this.$route;
 
       this.filteredTours = this.doFilter(this.tours, query);
@@ -74,6 +72,22 @@ export default {
                 }
             })
         }
+        // tight budget
+        if(params.budget && params.budget === 'all') {
+            filteredTour = filteredTour.filter(tour => tour.totalPrice.min >= 0  )
+        }  
+        // tight budget
+        if(params.budget && params.budget === '1') {
+            filteredTour = filteredTour.filter(tour => tour.totalPrice.min >= 0 && tour.totalPrice.max <= 800 )
+        }  
+        // mid budget
+        if(params.budget && params.budget === '2') {
+            filteredTour = filteredTour.filter(tour => tour.totalPrice.min >= 800 && tour.totalPrice.max <= 1000  )
+        }   
+        // luxury budget
+        if(params.budget && params.budget === '3') {
+            filteredTour = filteredTour.filter(tour => tour.totalPrice.min >= 1000  )
+        } 
       // act query params on data
       return filteredTour;
     }

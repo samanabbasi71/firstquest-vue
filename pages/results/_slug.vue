@@ -130,16 +130,6 @@ export default {
         });
     }
   }
-    // data() {
-    //   return {
-    //     tour: {}
-    //   };
-    // }
-
-    //   async fetch() {
-    //     this.tour = await fetch(`https://1stquest.com/api/plan/v1/itinerary/${this.$route.params.id}`).then((res) => res.json()).then((res) => res.data)
-    //     console.log(tour);
-    //   }
 };
 </script>
 
